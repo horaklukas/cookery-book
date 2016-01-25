@@ -5,5 +5,5 @@ require('bootstrap/less/bootstrap.less');
 import React from 'react/addons';
 import CookeryBook from 'components/CookeryBook';
 
-React.render(<CookeryBook />, document.getElementById('todo-list'));
+React.render(<CookeryBook />, document.getElementById('cookery-book'));
 

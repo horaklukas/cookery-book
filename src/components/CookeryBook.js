@@ -1,9 +1,12 @@
 import React from 'react/addons';
-import { Grid, Row, ListGroup } from 'react-bootstrap';
-import RecipesStore from 'stores/RecipesStore';
+import {Grid} from 'react-bootstrap';
 import Recipe from 'components/Recipe';
+import Page from 'components/Page';
+import RecipesStore from 'stores/RecipesStore';
 import RecipesActions from '../actions/RecipesActions';
 //import AddNewTaskForm from 'components/AddNewTaskForm';
+
+require('styles/cookery-book.less');
 
 class CookeryBook extends React.Component {
   constructor(props) {
@@ -29,17 +32,12 @@ class CookeryBook extends React.Component {
     let {recipes} = this.state;
 
     return (
-      <Grid>
-        <Row fluid={true}>
-          <h1>Recipes:</h1>
-          <ListGroup>
-            {recipes.map(recipe =>
-              <Recipe key={recipe.get('id')} recipe={recipe} />
-             ).toJS()}
-          </ListGroup>
-          {/*<h2>Add new recipe:</h2>
-          <AddNewTaskForm />*/}
-        </Row>
+      <Grid className="cookery-book">
+        {recipes.map(recipe =>
+          <Page key={recipe.get('id')}>
+            <Recipe recipe={recipe} />
+          </Page>
+         ).toJS()}
       </Grid>
     );
   }
