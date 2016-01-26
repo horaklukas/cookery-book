@@ -12,7 +12,7 @@ class Recipe extends React.Component {
     let name = ingredient.get('name'),
       amount = ingredient.get('amount');
 
-    return (<div key={name}>{name} {amount}</div>);
+    return (<span key={name} className="ingredient">{name} {amount}</span>);
   }
 
   render() {

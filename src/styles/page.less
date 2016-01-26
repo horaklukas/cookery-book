@@ -7,10 +7,11 @@
   //padding: @page-line-height * 2;
 
   .content {
-    margin-top: @page-line-height * 0.5;
-    margin-bottom: @page-line-height * 1.5;
+    margin-top: @page-top-padding;
+    margin-bottom: @page-bottom-padding;
     font-family: Parisienne; // fonts: Gabriela, Parisienne
     background: url('../images/page-bg.png');
     line-height: @page-line-height;
+    min-height: @cover-img-height - @page-top-padding - @page-bottom-padding;
   }
 }

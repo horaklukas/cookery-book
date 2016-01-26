@@ -1,9 +1,9 @@
 import React from 'react/addons';
-import {Grid} from 'react-bootstrap';
+import AltContainer from 'alt-container';
+import {Grid, Row, Col} from 'react-bootstrap';
 import Recipe from 'components/Recipe';
+import BookCover from 'components/BookCover';
 import Page from 'components/Page';
-import RecipesStore from 'stores/RecipesStore';
-import RecipesActions from '../actions/RecipesActions';
 //import AddNewTaskForm from 'components/AddNewTaskForm';
 
 require('styles/cookery-book.less');
@@ -11,33 +11,30 @@ require('styles/cookery-book.less');
 class CookeryBook extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { recipes: RecipesStore.getState() };
-    this.recipesChanged = this.recipesChanged.bind(this);
+
+    this.createPageWithRecipe = this.createPageWithRecipe.bind(this);
   }
 
-  componentDidMount() {
-    RecipesStore.listen(this.recipesChanged);
-    RecipesActions.fetchRecipes();
-  }
+  createPageWithRecipe(recipeId) {
+    let {recipes} = this.props;
+    let recipe = recipes.find(recipe => recipe.get('id') === recipeId);
 
-  componentWillUnmount() {
-    RecipesStore.unlisten(this.recipesChanged);
-  }
-
-  recipesChanged(recipesList)  {
-    this.setState({ recipes: recipesList });
+    return recipe ? (
+      <Page key={recipe.get('id')}>
+        <Recipe recipe={recipe} />
+      </Page>
+    ) : null;
   }
 
   render() {
-    let {recipes} = this.state;
+    let {book} = this.props;
+    let recipeId = book.get('actualRecipe');
 
     return (
       <Grid className="cookery-book">
-        {recipes.map(recipe =>
-          <Page key={recipe.get('id')}>
-            <Recipe recipe={recipe} />
-          </Page>
-         ).toJS()}
+        <Row>
+          {recipeId === null ? (<BookCover />) : this.createPageWithRecipe(recipeId)}
+        </Row>
       </Grid>
     );
   }
