@@ -30,6 +30,15 @@ describe('CookeryBookStore', function() {
     WrappedCookeryBookStore.__set__('RecipesStore', this.recipesStoreMock);
   });
 
+  it('should set no page for setFirstPage action', function() {
+    let action = Actions.SET_FIRST_PAGE;
+    this.setStoreState({actualRecipe: 'r2'});
+
+    alt.dispatcher.dispatch({action});
+
+    expect(wrappedCookeryBookStore.getState().get('actualRecipe')).toBeNull();
+  });
+
   it('should set first page for setNextPage action at cover', function() {
     let action = Actions.SET_NEXT_PAGE;
     this.setStoreState({actualRecipe: null});
@@ -64,5 +73,14 @@ describe('CookeryBookStore', function() {
     alt.dispatcher.dispatch({action});
 
     expect(wrappedCookeryBookStore.getState().get('actualRecipe')).toBeNull();
+  });
+
+  it('should set last page id for setLastPage action', function() {
+    let action = Actions.SET_LAST_PAGE;
+    this.setStoreState({actualRecipe: 'r2'});
+
+    alt.dispatcher.dispatch({action});
+
+    expect(wrappedCookeryBookStore.getState().get('actualRecipe')).toEqual('r4');
   });
 });

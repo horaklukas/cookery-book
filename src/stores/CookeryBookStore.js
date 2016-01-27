@@ -16,6 +16,10 @@ export class UnwrappedCookeryBookStore {
     return this.setState(this.state.set('actualRecipe', recipe));
   }
 
+  onSetFirstPage() {
+    this._setActualRecipe(null);
+  }
+
   onSetNextPage() {
     var recipeId;
     let actualRecipe = this.state.get('actualRecipe');
@@ -47,6 +51,10 @@ export class UnwrappedCookeryBookStore {
     }
 
     return this._setActualRecipe(recipeId);
+  }
+
+  onSetLastPage() {
+    this._setActualRecipe(RecipesStore.getState().last().get('id'));
   }
 }
 
