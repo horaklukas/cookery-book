@@ -1,10 +1,11 @@
 'use strict';
 
-var path = require('path');
-var rewirePlugin = require('rewire-webpack');
-
 module.exports = function (config) {
+  var path = require('path');
+  var rewirePlugin = require('rewire-webpack');
+
   config.set({
+    basePath: '',
     browsers: ['PhantomJS'],
     singleRun: true, //just run once by default
     frameworks: ['jasmine'],
@@ -52,7 +53,10 @@ module.exports = function (config) {
       resolve: {
         alias: {
           'styles': path.join(process.cwd(), './src/styles/'),
-          'components': path.join(process.cwd(), './src/components/')
+          'stores': path.join(process.cwd(), './src/stores'),
+          'actions': path.join(process.cwd(), './src/actions'),
+          'components': path.join(process.cwd(), './src/components/'),
+          'lib': path.join(process.cwd(), '/src/lib')
         }
       }
     },

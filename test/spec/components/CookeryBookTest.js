@@ -5,10 +5,17 @@ describe('CookeryBook', function() {
   let {Map, List, fromJS} = require('immutable');
   let TestUtils = require('react-shallow-testutils');
   let renderer = new TestUtils.Renderer();
+  let rewire = require('rewire');
   var CookeryBook, BookCover, Page, Recipe, BrowseButton;
 
   beforeAll(function() {
-    CookeryBook = require('components/CookeryBook.js');
+    this.mockActions = {
+      setPreviousPage: jasmine.createSpy(), setNextPage: jasmine.createSpy()
+    };
+
+    CookeryBook = rewire('components/CookeryBook.js');
+    CookeryBook.__set__('CookeryBookActions', this.mockActions);
+
     BookCover = require('components/BookCover');
     Page = require('components/Page');
     Recipe = require('components/Recipe');
@@ -16,6 +23,8 @@ describe('CookeryBook', function() {
   });
 
   beforeEach(function() {
+    this.mockActions.setPreviousPage.calls.reset();
+    this.mockActions.setNextPage.calls.reset();
     this.recipes = fromJS([
       {id: 'r1', title: 'recipe1'}, {id: 'r2',  title: 'recipe2'},
       {id: 'r3',  title: 'recipe3'}, {id: 'r4',  title: 'recipe4'}
@@ -50,12 +59,22 @@ describe('CookeryBook', function() {
     expect(browseButtons[1].props.type).toEqual('forward');
   });
 
-  it('should no button when there are no recipes', function() {
+  it('should create no button when there are no recipes', function() {
     let props = {book: Map({actualRecipe: null}), recipes: List([])};
     let component = renderer.render(() => <CookeryBook {...props} />, props);
 
     let browseButtons = TestUtils.findAllWithType(component, BrowseButton);
     expect(browseButtons.length).toEqual(0);
+  });
+
+  it('should call appropriete action when clicked button', function() {
+    let browseButtons = TestUtils.findAllWithType(this.component, BrowseButton);
+
+    browseButtons[0].props.onClick();
+    browseButtons[1].props.onClick();
+
+    expect(this.mockActions.setPreviousPage.calls.count()).toEqual(1);
+    expect(this.mockActions.setNextPage.calls.count()).toEqual(1);
   });
 
   it('should create just backward button when recipe id is id of last', function() {

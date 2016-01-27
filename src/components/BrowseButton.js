@@ -5,10 +5,10 @@ require('styles/browse-button.less');
 
 class BrowseButton extends React.Component {
   render() {
-    let {type} = this.props;
+    let {type, onClick} = this.props;
 
     return (
-      <Button className="browse-button">
+      <Button className="browse-button" onClick={onClick}>
         <Glyphicon glyph={type} />
       </Button>
     );

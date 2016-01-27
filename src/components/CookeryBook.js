@@ -1,11 +1,13 @@
 import React from 'react/addons';
 import AltContainer from 'alt-container';
 import {Grid, Row, Col, Button, Glyphicon} from 'react-bootstrap';
+
 import Recipe from 'components/Recipe';
 import BookCover from 'components/BookCover';
 import Page from 'components/Page';
 import BrowseButton from 'components/BrowseButton';
-//import AddNewTaskForm from 'components/AddNewTaskForm';
+
+import CookeryBookActions from '../actions/CookeryBookActions';
 
 require('styles/cookery-book.less');
 
@@ -15,6 +17,9 @@ class CookeryBook extends React.Component {
 
     this.createPageWithRecipe = this.createPageWithRecipe.bind(this);
   }
+
+  handleBackward() { CookeryBookActions.setPreviousPage(); }
+  handleForward() { CookeryBookActions.setNextPage(); }
 
   createPageWithRecipe(recipeId) {
     let {recipes} = this.props;
@@ -32,9 +37,11 @@ class CookeryBook extends React.Component {
     let lastRecipe = recipes.last();
     let recipeId = book.get('actualRecipe');
 
-    let backwardButton = recipeId !== null ? <BrowseButton type="backward" /> : null;
+    let backwardButton = recipeId !== null ?
+      <BrowseButton type="backward" onClick={this.handleBackward} /> : null;
+
     let forwardButton = lastRecipe && lastRecipe.get('id') !== recipeId ?
-      <BrowseButton type="forward" /> : null;
+      <BrowseButton type="forward" onClick={this.handleForward} /> : null;
 
     return (
       <Grid className="cookery-book">
