@@ -3,7 +3,7 @@
 require('bootstrap/less/bootstrap.less');
 
 import React from 'react/addons';
-import CookeryBook from 'components/CookeryBook';
+import CookeryBookWrapper from 'components/CookeryBookWrapper';
 
-React.render(<CookeryBook />, document.getElementById('todo-list'));
+React.render(<CookeryBookWrapper />, document.getElementById('cookery-book'));
 

@@ -1,44 +1,72 @@
 import React from 'react/addons';
-import { Grid, Row, ListGroup } from 'react-bootstrap';
-import RecipesStore from 'stores/RecipesStore';
+import AltContainer from 'alt-container';
+import {Grid, Row, Col, Button, Glyphicon} from 'react-bootstrap';
+
 import Recipe from 'components/Recipe';
-import RecipesActions from '../actions/RecipesActions';
-//import AddNewTaskForm from 'components/AddNewTaskForm';
+import BookCover from 'components/BookCover';
+import Page from 'components/Page';
+import BrowseButton from 'components/BrowseButton';
+
+import CookeryBookActions from '../actions/CookeryBookActions';
+
+require('styles/cookery-book.less');
 
 class CookeryBook extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { recipes: RecipesStore.getState() };
-    this.recipesChanged = this.recipesChanged.bind(this);
+
+    this.createPageWithRecipe = this.createPageWithRecipe.bind(this);
   }
 
-  componentDidMount() {
-    RecipesStore.listen(this.recipesChanged);
-    RecipesActions.fetchRecipes();
-  }
+  handleFastBackward() { CookeryBookActions.setFirstPage(); }
+  handleBackward() { CookeryBookActions.setPreviousPage(); }
+  handleForward() { CookeryBookActions.setNextPage(); }
+  handleFastForward() { CookeryBookActions.setLastPage(); }
 
-  componentWillUnmount() {
-    RecipesStore.unlisten(this.recipesChanged);
-  }
+  createPageWithRecipe(recipeId) {
+    let {recipes} = this.props;
+    let recipe = recipes.find(recipe => recipe.get('id') === recipeId);
 
-  recipesChanged(recipesList)  {
-    this.setState({ recipes: recipesList });
+    return recipe ? (
+      <Page key={recipe.get('id')}>
+        <Recipe recipe={recipe} />
+      </Page>
+    ) : null;
   }
 
   render() {
-    let {recipes} = this.state;
+    let {book, recipes} = this.props;
+    let lastRecipe = recipes.last();
+    let recipeId = book.get('actualRecipe');
+    let backwardButtons = null;
+    let forwardButtons = null;
+
+    if(recipeId !== null) {
+      backwardButtons = (
+        <div className="browse-buttons">
+          <BrowseButton type="fast-backward" onClick={this.handleFastBackward} />
+          <BrowseButton type="backward" onClick={this.handleBackward} />
+        </div>
+      );
+    }
+
+    if(lastRecipe && lastRecipe.get('id') !== recipeId) {
+      forwardButtons = (
+        <div className="browse-buttons">
+          <BrowseButton type="forward" onClick={this.handleForward} />
+          <BrowseButton type="fast-forward" onClick={this.handleFastForward} />
+        </div>
+      );
+    }
 
     return (
-      <Grid>
-        <Row fluid={true}>
-          <h1>Recipes:</h1>
-          <ListGroup>
-            {recipes.map(recipe =>
-              <Recipe key={recipe.get('id')} recipe={recipe} />
-             ).toJS()}
-          </ListGroup>
-          {/*<h2>Add new recipe:</h2>
-          <AddNewTaskForm />*/}
+      <Grid className="cookery-book">
+        <Row>
+          <Col xs={1}>{backwardButtons}</Col>
+          <Col xs={10}>
+          {recipeId === null ? (<BookCover />) : this.createPageWithRecipe(recipeId)}
+          </Col>
+          <Col xs={1}>{forwardButtons}</Col>
         </Row>
       </Grid>
     );

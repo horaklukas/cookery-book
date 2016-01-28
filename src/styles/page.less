@@ -1,0 +1,17 @@
+@import 'variables.less';
+
+.page {
+  margin: 30px;
+  border: 1px solid #999;
+  box-sizing: border-box;
+  //padding: @page-line-height * 2;
+
+  .content {
+    margin-top: @page-top-padding;
+    margin-bottom: @page-bottom-padding;
+    font-family: Parisienne; // fonts: Gabriela, Parisienne
+    background: url('../images/page-bg.png');
+    line-height: @page-line-height;
+    min-height: @cover-img-height - @page-top-padding - @page-bottom-padding;
+  }
+}
