@@ -3,10 +3,10 @@ var recipes = [
     id: 'bc91f3a6-ea22-46ba-a88d-56402b2d63a2',
     title: 'Celozrnné palačinky',
     ingredients: [
-      {amount: '2 hrnky', name: 'celozrnná špaldová mouka'},
-      {amount: '2 a 1/2 hrnku', name: 'mléko nebo voda'},
-      {amount: '1 lžíce', name: 'olej'},
-      {amount: '1/4 lžičky', name: 'sůl'}
+      {id: '02547d5a-fb3b-455d-b05f-02060128d354', amount: '2 hrnky'},
+      {id: '3f7455c9-28f0-47f4-90b4-14c97d33c7da', amount: '2 a 1/2 hrnku'},
+      {id: '09c3dc4c-8752-4599-b24a-cef8c33d8ac1', amount: '1 lžíce'},
+      {id: '7c498397-1ff1-4080-8b09-c90ea7fe2e8e', amount: '1/4 lžičky'}
     ],
     description: 'V míse smíchejte mouku se špetkou soli, přilijte rostlinné ' +
     'mléko (nebo vodu) a těsto prošlehejte metlou. Těsto nechte chvíli ' +
@@ -19,13 +19,13 @@ var recipes = [
     id: '9ec989f6-c606-4d3f-9380-f75b036ee0e1',
     title: 'Avokádové pesto',
     ingredients: [
-      {amount: '2', name: 'zralá avokáda'},
-      {amount: '1', name: 'šťáva z limetky'},
-      {amount: '2 stroužky', name: 'česnek'},
-      {amount: '60ml', name: 'olivový olej'},
-      {amount: 'hrst', name: 'čerstvý koriandr'},
-      {name: 'sůl'},
-      {name: 'strouhaný parmazán'}
+      {id: 'bd13e62d-474e-45fc-9f07-1b23dc0baa95', amount: '2'},
+      {id: 'f1d2eba0-3481-42da-81bf-a9abe6818898', amount: '1'},
+      {id: '46502951-c14e-4e08-9f89-262b40c75fb0', amount: '2 stroužky'},
+      {id: 'ec03396f-a7f2-4acd-a045-64357f0361d2', amount: '60ml'},
+      {id: 'fdcbfa64-0051-47db-a4d2-3f1ee18b570e', amount: 'hrst'},
+      {id: '7c498397-1ff1-4080-8b09-c90ea7fe2e8e'},
+      {id: '0cd0281d-c809-4f0f-98c2-06e5666a701c'}
     ],
     description: 'Avokádo rozkrojte na poloviny, vydlabejte a vidličkou ' +
       'rozmačkejte dohladka. Zakapejte limetkovou šťávou, přidejte najemno ' +

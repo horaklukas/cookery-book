@@ -1,16 +1,16 @@
 'use strict';
 
 import {fromJS} from 'immutable';
-import recipes from '../data/recipes';
+import ingredients from '../data/ingredients';
 
-var RecipesSource = {
+var IngredientsSource = {
   fetch: function () {
     return new Promise(function (resolve, reject) {
       setTimeout(function () {
-        resolve(fromJS(recipes));
+        resolve(fromJS(ingredients));
       }, 250);
     });
   }
 };
 
-export default RecipesSource;
+export default IngredientsSource;

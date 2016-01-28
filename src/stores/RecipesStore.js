@@ -20,4 +20,4 @@ class RecipesStore {
   }
 }
 
-export default AltInstance.createStore(ImmutableStore(RecipesStore));
+export default AltInstance.createStore(ImmutableStore(RecipesStore), 'RecipesStore');
