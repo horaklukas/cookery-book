@@ -7,7 +7,7 @@ import RecipesStore from 'stores/RecipesStore';
 
 export class UnwrappedCookeryBookStore {
   constructor() {
-    this.state = Map({actualRecipe: null});
+    this.state = Map({actualRecipe: null, height: null});
 
     this.bindActions(Actions);
   }
@@ -55,6 +55,10 @@ export class UnwrappedCookeryBookStore {
 
   onSetLastPage() {
     this._setActualRecipe(RecipesStore.getState().last().get('id'));
+  }
+
+  onSetHeight(height) {
+    return this.setState(this.state.set('height', height));
   }
 }
 

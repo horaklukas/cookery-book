@@ -39,12 +39,17 @@ describe('CookeryBook', function() {
     this.component = renderer.render(() => <CookeryBook {...props} />, props);
   });
 
-  it('should create a book cover when recipe id is not defined', function() {
+  it('should set book cover as a actual when recipe id is not defined', function() {
     let props = {book: Map({actualRecipe: null}), recipes: this.recipes};
     let component = renderer.render(() => <CookeryBook {...props} />, props);
 
-    TestUtils.findWithType(component, BookCover);
-    expect(TestUtils.findAllWithType(component, Page).length).toEqual(0);
+    let cover = TestUtils.findWithType(component, BookCover);
+    expect(cover.props.actual).toEqual(true);
+  });
+
+  it('should not set book cover as a actual when recipe id is not defined', function() {
+    let cover = TestUtils.findWithType(this.component, BookCover);
+    expect(cover.props.actual).toEqual(false);
   });
 
   it('should create just forward buttons when recipe id is not defined', function() {
@@ -100,11 +105,24 @@ describe('CookeryBook', function() {
     expect(this.mockActions.setLastPage.calls.count(), 'fast-forward').toEqual(1);
   });
 
-  it('should create page with recipe when recipe id is  defined', function() {
-    let page = TestUtils.findWithType(this.component, Page);
-    let recipe = TestUtils.findWithType(page, Recipe);
-    expect(recipe.props.recipe).toEqual(this.recipes.get(1));
+  it('should create page for each recipe', function() {
+    let pages = TestUtils.findAllWithType(this.component, Page);
+    expect(pages.length).toEqual(this.recipes.size);
+  });
+  
+  it('should set class `hidden` for each other than actual recipe', function() {
+    let props = {book: this.book, recipes: this.recipes, height: 500};
 
-    expect(TestUtils.findAllWithType(this.component, BookCover).length).toEqual(0);
+    let component = renderer.render(() => <CookeryBook {...props} />, props);
+    let pages = TestUtils.findAllWithType(component, Page);
+
+    expect(pages[0].key).toEqual(this.recipes.getIn([0, 'id']));
+    expect(pages[0].props.type, 'page 1').toEqual('hidden');
+    expect(pages[1].key).toEqual(this.recipes.getIn([1, 'id']));
+    expect(pages[1].props.type, 'page 2').toEqual('');
+    expect(pages[2].key).toEqual(this.recipes.getIn([2, 'id']));
+    expect(pages[2].props.type, 'page 3').toEqual('hidden');
+    expect(pages[3].key).toEqual(this.recipes.getIn([3, 'id']));
+    expect(pages[3].props.type, 'page 4').toEqual('hidden');
   });
 });
