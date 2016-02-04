@@ -58,12 +58,23 @@ class CookeryBook extends React.Component {
     let recipeId = book.get('actualRecipe');
     let backwardButtons = null;
     let forwardButtons = null;
+    let bookHeight = book.get('height');
+    let browseButtonColStyles = null;
+
+    if(bookHeight !== null) {
+      browseButtonColStyles = {
+        height: bookHeight,
+        // 80px is height of browse button, its defined inside variables.less
+        // TODO - find how to share button height variable with styles
+        paddingTop: (bookHeight - (80 * 2)) / 2
+      }; 
+    }
 
     if(recipeId !== null) {
       backwardButtons = (
         <div className="browse-buttons">
-          <BrowseButton type="fast-backward" onClick={this.handleFastBackward} />
           <BrowseButton type="backward" onClick={this.handleBackward} />
+          <BrowseButton type="fast-backward" onClick={this.handleFastBackward} />
         </div>
       );
     }
@@ -80,12 +91,16 @@ class CookeryBook extends React.Component {
     return (
       <Grid className="cookery-book">
         <Row>
-          <Col xs={1}>{backwardButtons}</Col>
-          <Col xs={10} style={{height: book.get('height')}}>
+          <Col xs={1} className="backward" style={browseButtonColStyles}>
+            {backwardButtons}
+          </Col>
+          <Col xs={10} className="book" style={{height: bookHeight}}>
             <BookCover actual={recipeId === null} />
             {recipes.map(this.createPageWithRecipe)}
           </Col>
-          <Col xs={1}>{forwardButtons}</Col>
+          <Col xs={1} className="forward" style={browseButtonColStyles}>
+            {forwardButtons}
+          </Col>
         </Row>
       </Grid>
     );

@@ -65,8 +65,8 @@ describe('CookeryBook', function() {
   it('should create both browse buttons when show recipe in middle of book', function() {
     let browseButtons = TestUtils.findAllWithType(this.component, BrowseButton);
     expect(browseButtons.length).toEqual(4);
-    expect(browseButtons[0].props.type).toEqual('fast-backward');
-    expect(browseButtons[1].props.type).toEqual('backward');
+    expect(browseButtons[0].props.type).toEqual('backward');
+    expect(browseButtons[1].props.type).toEqual('fast-backward');
     expect(browseButtons[2].props.type).toEqual('forward');
     expect(browseButtons[3].props.type).toEqual('fast-forward');
   });
@@ -85,18 +85,18 @@ describe('CookeryBook', function() {
 
     let browseButtons = TestUtils.findAllWithType(component, BrowseButton);
     expect(browseButtons.length).toEqual(2);
-    expect(browseButtons[0].props.type).toEqual('fast-backward');
-    expect(browseButtons[1].props.type).toEqual('backward');
+    expect(browseButtons[0].props.type).toEqual('backward');
+    expect(browseButtons[1].props.type).toEqual('fast-backward');
   });
 
   it('should call appropriete action when clicked button', function() {
     let browseButtons = TestUtils.findAllWithType(this.component, BrowseButton);
 
     browseButtons[0].props.onClick();
-    expect(this.mockActions.setFirstPage.calls.count(), 'fast-backward').toEqual(1);
+    expect(this.mockActions.setPreviousPage.calls.count(), 'backward').toEqual(1);
 
     browseButtons[1].props.onClick();
-    expect(this.mockActions.setPreviousPage.calls.count(), 'backward').toEqual(1);
+    expect(this.mockActions.setFirstPage.calls.count(), 'fast-backward').toEqual(1);
 
     browseButtons[2].props.onClick();
     expect(this.mockActions.setNextPage.calls.count(), 'forward').toEqual(1);
