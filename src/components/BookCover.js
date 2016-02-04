@@ -14,7 +14,6 @@ class BookCover extends React.Component {
 
     return (
       <Page type={coverPageClass}>
-        {/*<img src="../images/book-cover.jpg" className="img-responsive" />*/}
         <h1>Cookbook</h1>
       </Page>
     );

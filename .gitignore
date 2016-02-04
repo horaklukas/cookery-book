@@ -27,6 +27,7 @@ $RECYCLE.BIN/
 
 # App specific
 
+graphic/
 node_modules/
 .tmp
 dist

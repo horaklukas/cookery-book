@@ -21,7 +21,8 @@ class CookeryBook extends React.Component {
   }
 
   componentDidUpdate() {
-    var heights = [];
+    var heights = [Math.round(window.innerHeight * 0.95)];
+
     let pages = document.querySelectorAll('.page');
 
     _forEach(pages, page => heights.push(page.clientHeight));
