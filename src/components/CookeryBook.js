@@ -1,12 +1,9 @@
 import React from 'react/addons';
-import AltContainer from 'alt-container';
-import {Grid, Row, Col, Button, Glyphicon} from 'react-bootstrap';
-import classNames from 'classnames';
-import _forEach from 'lodash.foreach';
+import {Grid, Row, Col} from 'react-bootstrap';
+import _upperFirst from 'lodash.upperfirst';
 
-import Recipe from 'components/Recipe';
+import Recipes from 'components/Recipes';
 import BookCover from 'components/BookCover';
-import Page from 'components/Page';
 import BrowseButton from 'components/BrowseButton';
 
 import CookeryBookActions from '../actions/CookeryBookActions';
@@ -14,43 +11,21 @@ import CookeryBookActions from '../actions/CookeryBookActions';
 require('styles/cookery-book.less');
 
 class CookeryBook extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.createPageWithRecipe = this.createPageWithRecipe.bind(this);
-  }
-
-  componentDidUpdate() {
-    var heights = [Math.round(window.innerHeight * 0.95)];
-
-    let pages = document.querySelectorAll('.page');
-
-    _forEach(pages, page => heights.push(page.clientHeight));
-
-    if(this.props.book.get('height') === null) {
-      // async call to prevent "Cannot dispatch in the middle of dispatching" error
-      setTimeout(() => CookeryBookActions.setHeight(Math.max(...heights)), 0);
-    }
-  }
-
   handleFastBackward() { CookeryBookActions.setFirstPage(); }
   handleBackward() { CookeryBookActions.setPreviousPage(); }
   handleForward() { CookeryBookActions.setNextPage(); }
   handleFastForward() { CookeryBookActions.setLastPage(); }
 
-  createPageWithRecipe(recipe) {
-    let actualRecipeId = this.props.book.get('actualRecipe');
-
-    // don't hide inactive pages until book height is counted 
-    let pageClass = classNames({
-      'hidden': this.props.book.get('height') !== null && actualRecipeId !== recipe.get('id')
-    });
+  createBrowseButtons(type) {
+    let fastType =  `fast-${type}`;
+    let typeUpper = _upperFirst(type);
 
     return (
-      <Page key={recipe.get('id')} type={pageClass}>
-        <Recipe recipe={recipe} />
-      </Page>
-    );
+      <div className="browse-buttons">
+        <BrowseButton type={type} onClick={this[`handle${typeUpper}`]} />
+        <BrowseButton type={fastType} onClick={this[`handleFast${typeUpper}`]} />
+      </div>
+    );    
   }
 
   render() {
@@ -72,21 +47,11 @@ class CookeryBook extends React.Component {
     }
 
     if(recipeId !== null) {
-      backwardButtons = (
-        <div className="browse-buttons">
-          <BrowseButton type="backward" onClick={this.handleBackward} />
-          <BrowseButton type="fast-backward" onClick={this.handleFastBackward} />
-        </div>
-      );
+      backwardButtons = this.createBrowseButtons('backward');
     }
 
     if(lastRecipe && lastRecipe.get('id') !== recipeId) {
-      forwardButtons = (
-        <div className="browse-buttons">
-          <BrowseButton type="forward" onClick={this.handleForward} />
-          <BrowseButton type="fast-forward" onClick={this.handleFastForward} />
-        </div>
-      );
+      forwardButtons = this.createBrowseButtons('forward');
     }
 
     return (
@@ -97,7 +62,7 @@ class CookeryBook extends React.Component {
           </Col>
           <Col xs={10} className="book" style={{height: bookHeight}}>
             <BookCover actual={recipeId === null} />
-            {recipes.map(this.createPageWithRecipe)}
+            <Recipes {...this.props} />
           </Col>
           <Col xs={1} className="forward" style={browseButtonColStyles}>
             {forwardButtons}

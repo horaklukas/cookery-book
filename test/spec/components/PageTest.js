@@ -25,4 +25,24 @@ describe('Page', function() {
     let row = TestUtils.findWithType(component, Row);
     expect(row.props.className).toEqual('page');
   });
+
+  it('should not create header if no content provided', function() {
+    let component = renderer.render(() => <Page header={null} />);
+    let header = TestUtils.findAllWithClass(component, 'header');
+
+    expect(header.length).toEqual(0);    
+  });
+
+  it('should create header if empty text provided', function() {
+    let component = renderer.render(() => <Page header={''} />);
+    
+    TestUtils.findWithClass(component, 'header');
+  });
+
+  it('should display supplied header content', function() {
+    let component = renderer.render(() => <Page header="header content" />);
+    let header = TestUtils.findWithClass(component, 'header');
+
+    expect(header.props.children).toEqual('header content');    
+  });
 });

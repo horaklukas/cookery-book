@@ -6,7 +6,7 @@ describe('CookeryBook', function() {
   let TestUtils = require('react-shallow-testutils');
   let renderer = new TestUtils.Renderer();
   let rewire = require('rewire');
-  var CookeryBook, BookCover, Page, Recipe, BrowseButton;
+  var CookeryBook, BookCover, Recipes, BrowseButton;
 
   beforeAll(function() {
     this.mockActions = {
@@ -18,8 +18,7 @@ describe('CookeryBook', function() {
     CookeryBook.__set__('CookeryBookActions', this.mockActions);
 
     BookCover = require('components/BookCover');
-    Page = require('components/Page');
-    Recipe = require('components/Recipe');
+    Recipes = require('components/Recipes');
     BrowseButton = require('components/BrowseButton');
   });
 
@@ -105,24 +104,8 @@ describe('CookeryBook', function() {
     expect(this.mockActions.setLastPage.calls.count(), 'fast-forward').toEqual(1);
   });
 
-  it('should create page for each recipe', function() {
-    let pages = TestUtils.findAllWithType(this.component, Page);
-    expect(pages.length).toEqual(this.recipes.size);
-  });
-  
-  it('should set class `hidden` for each other than actual recipe', function() {
-    let props = {book: this.book, recipes: this.recipes, height: 500};
-
-    let component = renderer.render(() => <CookeryBook {...props} />, props);
-    let pages = TestUtils.findAllWithType(component, Page);
-
-    expect(pages[0].key).toEqual(this.recipes.getIn([0, 'id']));
-    expect(pages[0].props.type, 'page 1').toEqual('hidden');
-    expect(pages[1].key).toEqual(this.recipes.getIn([1, 'id']));
-    expect(pages[1].props.type, 'page 2').toEqual('');
-    expect(pages[2].key).toEqual(this.recipes.getIn([2, 'id']));
-    expect(pages[2].props.type, 'page 3').toEqual('hidden');
-    expect(pages[3].key).toEqual(this.recipes.getIn([3, 'id']));
-    expect(pages[3].props.type, 'page 4').toEqual('hidden');
-  });
+  it('should create recipes list', function() {
+    let recipes = TestUtils.findWithType(this.component, Recipes);
+    expect(recipes.props).toEqual({book: this.book, recipes: this.recipes});
+  });  
 });
