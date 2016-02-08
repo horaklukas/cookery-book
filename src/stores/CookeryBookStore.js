@@ -7,7 +7,7 @@ import RecipesStore from 'stores/RecipesStore';
 
 export class UnwrappedCookeryBookStore {
   constructor() {
-    this.state = Map({actualRecipe: null});
+    this.state = Map({actualRecipe: null, height: null});
 
     this.bindActions(Actions);
   }
@@ -24,8 +24,10 @@ export class UnwrappedCookeryBookStore {
     var recipeId;
     let actualRecipe = this.state.get('actualRecipe');
     let recipes = RecipesStore.getState();
-
-    if(actualRecipe === null) {
+    
+    if(recipes.last().get('id') === actualRecipe) {
+      return null;
+    } else if(actualRecipe === null) {
       recipeId = recipes.first().get('id');
     } else {
       let actualIndex = recipes.findIndex(recipe => recipe.get('id') === actualRecipe);
@@ -55,6 +57,10 @@ export class UnwrappedCookeryBookStore {
 
   onSetLastPage() {
     this._setActualRecipe(RecipesStore.getState().last().get('id'));
+  }
+
+  onSetHeight(height) {
+    return this.setState(this.state.set('height', height));
   }
 }
 

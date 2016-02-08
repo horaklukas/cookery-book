@@ -3,7 +3,7 @@ import AltInstance from 'lib/AltInstance';
 class CookeryBookActions {
   constructor() {
     this.generateActions('setFirstPage', 'setNextPage', 'setPreviousPage',
-      'setLastPage');
+      'setLastPage', 'setHeight');
   }
 }
 

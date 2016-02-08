@@ -1,6 +1,53 @@
+@import '../../node_modules/bootstrap/less/variables.less';
+@import '../../node_modules/bootstrap/less/mixins/responsive-visibility.less';
+@import '../../node_modules/bootstrap/less/responsive-utilities.less';
 @import './variables.less';
 
-.browse-buttons {
-  margin-top: @cover-img-height / 3;
-  .browse-button {}
+@browseButtonBorderRadius: @browse-button-height / 2;
+
+.browse-buttons(@align) {
+  padding-left: 0;
+  padding-right: 0;
+  .hidden-xs();
+
+  .browse-buttons {
+    //margin-top: @cover-img-height / 3;
+    width: @browse-button-width;
+    float: @align;
+
+    .browse-button {
+      width: @browse-button-width;
+      height: @browse-button-height;
+      color: lighten(#000, 50%);
+      font-size: @browse-button-height / 4;
+      text-align: @align;
+      border-@{align}: 0;
+
+      &:hover {
+        color: lighten(#000, 20%);
+      }
+    }  
+  }
+}
+
+.browse-buttons(@align) when (@align = left) {
+  .browse-button {
+    border-radius: 0 @browseButtonBorderRadius @browseButtonBorderRadius 0;
+    padding-left: 5px;
+  }
+}
+
+.browse-buttons(@align) when (@align = right) {
+  .browse-button {
+    border-radius: @browseButtonBorderRadius 0 0 @browseButtonBorderRadius;
+    padding-right: 5px;
+  }
+}
+
+.backward {
+  .browse-buttons(right);
+}
+
+.forward {
+  .browse-buttons(left);
 }

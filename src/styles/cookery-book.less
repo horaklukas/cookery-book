@@ -1,0 +1,17 @@
+@import '../../node_modules/bootstrap/less/variables.less';
+@import '../../node_modules/bootstrap/less/mixins/grid.less';
+@import '../../node_modules/bootstrap/less/mixins/grid-framework.less';
+@import '../../node_modules/bootstrap/less/grid.less';
+
+.cookery-book {
+  .container-fluid();
+
+  @media (min-width: @screen-sm-min) {
+    .container();
+  }
+
+  .book {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}

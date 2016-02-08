@@ -104,6 +104,19 @@ module.exports = function (grunt) {
           ]
         }]
       }
+    },
+
+    'ftp-deploy': {
+      build: {
+        auth: {
+          host: 'kocicka.endora.cz',
+          port: 21,
+          authKey: 'bacisovi-tode'
+        },
+        src: 'dist',
+        dest: '/bacisovi.tode.cz/web/cookery-book',
+        forceVerbose: true
+      }
     }
   });
 
@@ -121,6 +134,8 @@ module.exports = function (grunt) {
   grunt.registerTask('test', ['karma']);
 
   grunt.registerTask('build', ['clean', 'copy', 'webpack']);
+
+  grunt.registerTask('deploy', ['build', 'ftp-deploy']);
 
   grunt.registerTask('default', ['test', 'serve']);
 };

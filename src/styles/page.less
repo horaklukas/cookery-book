@@ -1,17 +1,26 @@
 @import 'variables.less';
 
-.page {
-  margin: 30px;
+.row.page {
+  margin: 0;
   border: 1px solid #999;
   box-sizing: border-box;
-  //padding: @page-line-height * 2;
+  display: block;
+  height: 100%;
+  
+  background: url('../images/page-bg.png') 0 @page-top-padding + @page-line-height;
+
+  &.hidden {
+    display: none;
+  }
+
+  .header {
+    height: @page-top-padding + @page-line-height;
+    background: url('../images/page-bg.png') #fff bottom repeat-x;
+    text-align: center;
+  }
 
   .content {
-    margin-top: @page-top-padding;
-    margin-bottom: @page-bottom-padding;
     font-family: Parisienne; // fonts: Gabriela, Parisienne
-    background: url('../images/page-bg.png');
     line-height: @page-line-height;
-    min-height: @cover-img-height - @page-top-padding - @page-bottom-padding;
   }
 }

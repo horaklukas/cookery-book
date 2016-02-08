@@ -6,7 +6,7 @@ describe('CookeryBook', function() {
   let TestUtils = require('react-shallow-testutils');
   let renderer = new TestUtils.Renderer();
   let rewire = require('rewire');
-  var CookeryBook, BookCover, Page, Recipe, BrowseButton;
+  var CookeryBook, BookCover, Recipes, BrowseButton;
 
   beforeAll(function() {
     this.mockActions = {
@@ -18,8 +18,7 @@ describe('CookeryBook', function() {
     CookeryBook.__set__('CookeryBookActions', this.mockActions);
 
     BookCover = require('components/BookCover');
-    Page = require('components/Page');
-    Recipe = require('components/Recipe');
+    Recipes = require('components/Recipes');
     BrowseButton = require('components/BrowseButton');
   });
 
@@ -39,12 +38,17 @@ describe('CookeryBook', function() {
     this.component = renderer.render(() => <CookeryBook {...props} />, props);
   });
 
-  it('should create a book cover when recipe id is not defined', function() {
+  it('should set book cover as a actual when recipe id is not defined', function() {
     let props = {book: Map({actualRecipe: null}), recipes: this.recipes};
     let component = renderer.render(() => <CookeryBook {...props} />, props);
 
-    TestUtils.findWithType(component, BookCover);
-    expect(TestUtils.findAllWithType(component, Page).length).toEqual(0);
+    let cover = TestUtils.findWithType(component, BookCover);
+    expect(cover.props.actual).toEqual(true);
+  });
+
+  it('should not set book cover as a actual when recipe id is not defined', function() {
+    let cover = TestUtils.findWithType(this.component, BookCover);
+    expect(cover.props.actual).toEqual(false);
   });
 
   it('should create just forward buttons when recipe id is not defined', function() {
@@ -60,8 +64,8 @@ describe('CookeryBook', function() {
   it('should create both browse buttons when show recipe in middle of book', function() {
     let browseButtons = TestUtils.findAllWithType(this.component, BrowseButton);
     expect(browseButtons.length).toEqual(4);
-    expect(browseButtons[0].props.type).toEqual('fast-backward');
-    expect(browseButtons[1].props.type).toEqual('backward');
+    expect(browseButtons[0].props.type).toEqual('backward');
+    expect(browseButtons[1].props.type).toEqual('fast-backward');
     expect(browseButtons[2].props.type).toEqual('forward');
     expect(browseButtons[3].props.type).toEqual('fast-forward');
   });
@@ -80,18 +84,18 @@ describe('CookeryBook', function() {
 
     let browseButtons = TestUtils.findAllWithType(component, BrowseButton);
     expect(browseButtons.length).toEqual(2);
-    expect(browseButtons[0].props.type).toEqual('fast-backward');
-    expect(browseButtons[1].props.type).toEqual('backward');
+    expect(browseButtons[0].props.type).toEqual('backward');
+    expect(browseButtons[1].props.type).toEqual('fast-backward');
   });
 
   it('should call appropriete action when clicked button', function() {
     let browseButtons = TestUtils.findAllWithType(this.component, BrowseButton);
 
     browseButtons[0].props.onClick();
-    expect(this.mockActions.setFirstPage.calls.count(), 'fast-backward').toEqual(1);
+    expect(this.mockActions.setPreviousPage.calls.count(), 'backward').toEqual(1);
 
     browseButtons[1].props.onClick();
-    expect(this.mockActions.setPreviousPage.calls.count(), 'backward').toEqual(1);
+    expect(this.mockActions.setFirstPage.calls.count(), 'fast-backward').toEqual(1);
 
     browseButtons[2].props.onClick();
     expect(this.mockActions.setNextPage.calls.count(), 'forward').toEqual(1);
@@ -100,11 +104,8 @@ describe('CookeryBook', function() {
     expect(this.mockActions.setLastPage.calls.count(), 'fast-forward').toEqual(1);
   });
 
-  it('should create page with recipe when recipe id is  defined', function() {
-    let page = TestUtils.findWithType(this.component, Page);
-    let recipe = TestUtils.findWithType(page, Recipe);
-    expect(recipe.props.recipe).toEqual(this.recipes.get(1));
-
-    expect(TestUtils.findAllWithType(this.component, BookCover).length).toEqual(0);
-  });
+  it('should create recipes list', function() {
+    let recipes = TestUtils.findWithType(this.component, Recipes);
+    expect(recipes.props).toEqual({book: this.book, recipes: this.recipes});
+  });  
 });

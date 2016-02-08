@@ -1,16 +1,21 @@
 import React from 'react/addons';
 import {Row, Col} from 'react-bootstrap';
+import classNames from 'classnames';
+import Page from 'components/Page';
 
 require('styles/book-cover.less');
 
 class BookCover extends React.Component {
   render() {
+    let coverPageClass = classNames({
+      'cover': true,
+      'hidden': !this.props.actual
+    });
+
     return (
-      <Row className="cover">
-        <Col xs={12}>
-          <img src="../images/book-cover.jpg" className="img-responsive" />
-        </Col>
-      </Row>
+      <Page type={coverPageClass}>
+        <h1>Cookbook</h1>
+      </Page>
     );
   }
 }

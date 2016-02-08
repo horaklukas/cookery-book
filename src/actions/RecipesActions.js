@@ -5,7 +5,7 @@ import RecipesSource from '../sources/RecipesSource';
 
 class RecipesActions {
   constructor() {
-    this.generateActions(['setRecipes']);
+    this.generateActions('setRecipes');
   }
 
   fetchRecipes() {
