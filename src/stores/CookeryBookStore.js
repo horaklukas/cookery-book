@@ -24,8 +24,10 @@ export class UnwrappedCookeryBookStore {
     var recipeId;
     let actualRecipe = this.state.get('actualRecipe');
     let recipes = RecipesStore.getState();
-
-    if(actualRecipe === null) {
+    
+    if(recipes.last().get('id') === actualRecipe) {
+      return null;
+    } else if(actualRecipe === null) {
       recipeId = recipes.first().get('id');
     } else {
       let actualIndex = recipes.findIndex(recipe => recipe.get('id') === actualRecipe);

@@ -9,7 +9,6 @@ import Actions from 'actions/CookeryBookActions';
 describe('CookeryBookStore', function() {
   let wrappedCookeryBookStore, unwrappedStore;
 
-
   beforeAll(function() {
     let WrappedCookeryBookStore = rewire('stores/CookeryBookStore');
     wrappedCookeryBookStore = WrappedCookeryBookStore.default;
@@ -55,6 +54,15 @@ describe('CookeryBookStore', function() {
     alt.dispatcher.dispatch({action});
 
     expect(wrappedCookeryBookStore.getState().get('actualRecipe')).toEqual('r3');
+  });
+  
+  it('should left actual page id for setNextPage action on last page', function() {
+    let action = Actions.SET_NEXT_PAGE;
+    this.setStoreState({actualRecipe: 'r4'});
+
+    alt.dispatcher.dispatch({action});
+
+    expect(wrappedCookeryBookStore.getState().get('actualRecipe')).toEqual('r4');
   });
 
   it('should set previous page id for setPreviousPage action', function() {

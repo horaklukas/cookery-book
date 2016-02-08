@@ -1,5 +1,6 @@
 import React from 'react/addons';
 import {Grid, Row, Col} from 'react-bootstrap';
+import Swipeable from 'react-swipeable';
 import _upperFirst from 'lodash.upperfirst';
 
 import Recipes from 'components/Recipes';
@@ -55,20 +56,23 @@ class CookeryBook extends React.Component {
     }
 
     return (
-      <Grid className="cookery-book">
+      <div className="cookery-book">
         <Row>
-          <Col xs={1} className="backward" style={browseButtonColStyles}>
+          <Col sm={1} className="backward" style={browseButtonColStyles}>
             {backwardButtons}
           </Col>
-          <Col xs={10} className="book" style={{height: bookHeight}}>
-            <BookCover actual={recipeId === null} />
-            <Recipes {...this.props} />
+          <Col xs={12} className="book col-sm-10" style={{height: bookHeight}}>
+            <Swipeable style={{height: '100%'}} 
+              onSwipedLeft={this.handleForward} onSwipedRight={this.handleBackward}>
+              <BookCover actual={recipeId === null} />
+              <Recipes {...this.props} />
+            </Swipeable>
           </Col>
-          <Col xs={1} className="forward" style={browseButtonColStyles}>
+          <Col sm={1} className="forward" style={browseButtonColStyles}>
             {forwardButtons}
           </Col>
         </Row>
-      </Grid>
+      </div>
     );
   }
 }

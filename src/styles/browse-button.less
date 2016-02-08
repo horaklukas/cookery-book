@@ -1,3 +1,6 @@
+@import '../../node_modules/bootstrap/less/variables.less';
+@import '../../node_modules/bootstrap/less/mixins/responsive-visibility.less';
+@import '../../node_modules/bootstrap/less/responsive-utilities.less';
 @import './variables.less';
 
 @browseButtonBorderRadius: @browse-button-height / 2;
@@ -5,6 +8,7 @@
 .browse-buttons(@align) {
   padding-left: 0;
   padding-right: 0;
+  .hidden-xs();
 
   .browse-buttons {
     //margin-top: @cover-img-height / 3;
